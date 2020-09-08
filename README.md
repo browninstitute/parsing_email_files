@@ -4,7 +4,7 @@ This repository contains different Python scripts to parse email files. The scri
 
 So far this repository includes scripts to parse:
 
-* `.eml` files (`ParsingEmlFiles.py`)
+* `.eml` files ([`ParsingEmlFiles.py`](https://github.com/browninstitute/parsing_email_files/blob/master/ParsingEmlFiles.py))
 
 These scripts were created by Juan Francisco Saldarriaga at the [Brown Institute for Media Innovation](https://brown.columbia.edu/)
 

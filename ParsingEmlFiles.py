@@ -88,5 +88,5 @@ for file in files:
     print('\n')
 
 df.to_csv(outputPath + '/summaryFile.csv', index=False)
-print('Done processing ', counter, 'files...')
+print('Done processing', counter, 'files...')
 subprocess.call(["open", "-R", outputPath])

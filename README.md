@@ -37,7 +37,13 @@ pip3 install pdfkit
 
 ## Running the scripts
 
-To run the scripts do: `python3 [script name]`
+To run the scripts do: `python3 [script name]`.
+
+When prompted for the input and output paths, please type (or copy and paste) the full absolute path. Something like `/Users/juanfrans/Google Drive/08_Brown/00_TestingGroundMagicGrants/01_DocumentingCovid19/01_ParsingEmails/01_ParsingEML/input`.
+
+Note that the input files must be unzipped.
+
+The scripts will produce an output `pdf` file with the same file name as the original email file. In addition, it will also output the attachments with the name of the original email file pre-appended to their name.
 
 ## Todo
 

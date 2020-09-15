@@ -24,7 +24,7 @@ When working on MacOS we suggest you install the necessary packages through [Hom
 1. Install Homebrew: `/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"`
 2. Install Python 3.x: `brew install python`
 3. Install `wkhtmltopdf` (pre-requisite for `pdfkit`: `brew install Caskroom/cask/wkhtmltopdf`
-4. Install `Pandas`, `Numpy`, `NLTK`, `Rake_NLTK`, `Beautiful Soup`, and `pdfkit`:
+4. Install `Pandas`, `Numpy`, `NLTK`, `Rake_NLTK`, `Beautiful Soup`, `pdfkit`:
 
 ```bash
 pip3 install pandas
@@ -45,6 +45,10 @@ Note that the input files must be unzipped.
 
 The scripts will produce an output `pdf` file with the same file name as the original email file. In addition, it will also output the attachments with the name of the original email file pre-appended to their name.
 
-## Todo
+## Parsing `.pst` files
 
-* [ ] Add entity extraction to the summary file
+To parse `.pst` files, open Microsoft-Outlook and import them by selecting `File / Import / Outlook for Windows archive file (.pst)`. Once the messages are imported, select all the messages and drag them to a finder window on the folder where you wish to save the files. This should convert them to `.eml` files.
+
+## TODO:
+
+* [ ] Add entity extraction to the summary file (probably through SpaCy)

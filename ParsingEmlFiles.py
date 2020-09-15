@@ -8,6 +8,11 @@ import numpy as np
 from rake_nltk import Rake
 from bs4 import BeautifulSoup
 import subprocess
+import spacy
+from spacy import displacy
+from collections import Counter
+import en_core_web_sm
+nlp = en_core_web_sm.load()
 
 # Setting up input and output paths
 print('Please provide the input directory (where the .eml files are located)')
@@ -26,7 +31,7 @@ r = Rake() # Uses stopwords for english from NLTK, and all punctuation character
 files = glob(inputPath + '/*.eml')
 
 # Creating the output dataframe object
-df = pd.DataFrame(columns=['fileName','from','to','cc','subject','attachments','attachmentTypes','keywords_10'])
+df = pd.DataFrame(columns=['fileName','from','to','cc','subject','attachments','attachmentTypes','keywords_10', 'persons', 'orgs', 'nat_rel_polt', 'countries_cities_states', 'laws'])
 
 # Setting up presets to process the emails
 options = {
@@ -74,6 +79,12 @@ for file in files:
             plainText = msg.get_body(preferencelist=('plain')).get_content()
             r.extract_keywords_from_text(plainText)
             keywords = r.get_ranked_phrases()[:10]
+            doc = nlp(plainText)
+            persons = dict(Counter([x.text for x in doc.ents if x.label_ == 'PERSON']))
+            orgs = dict(Counter([x.text for x in doc.ents if x.label_ == 'ORG']))
+            norp = dict(Counter([x.text for x in doc.ents if x.label_ == 'NORP']))
+            gpe = dict(Counter([x.text for x in doc.ents if x.label_ == 'GPE']))
+            laws = dict(Counter([x.text for x in doc.ents if x.label_ == 'LAW']))
         except Exception as e:
             soup = BeautifulSoup(msg.get_body(preferencelist=('html')).get_content(), 'html.parser')
             for script in soup(["script", "style"]):
@@ -81,7 +92,13 @@ for file in files:
             plainText = soup.getText()
             r.extract_keywords_from_text(plainText)
             keywords = r.get_ranked_phrases()[:10]
-        df = df.append({'fileName':fileName+'.eml','from':fromEmail,'to':to,'cc':cc,'subject':subject,'attachments':attachmentNames,'attachmentTypes':attachmentTypes,'keywords_10':keywords}, ignore_index=True)
+            doc = nlp(plainText)
+            persons = dict(Counter([x.text for x in doc.ents if x.label_ == 'PERSON']))
+            orgs = dict(Counter([x.text for x in doc.ents if x.label_ == 'ORG']))
+            norp = dict(Counter([x.text for x in doc.ents if x.label_ == 'NORP']))
+            gpe = dict(Counter([x.text for x in doc.ents if x.label_ == 'GPE']))
+            laws = dict(Counter([x.text for x in doc.ents if x.label_ == 'LAW']))
+        df = df.append({'fileName':fileName+'.eml','from':fromEmail,'to':to,'cc':cc,'subject':subject,'attachments':attachmentNames,'attachmentTypes':attachmentTypes,'keywords_10':keywords,'persons':persons,'orgs':orgs,'nat_rel_polt':norp,'countries_cities_states':gpe,'laws':laws}, ignore_index=True)
         counter += 1
     except Exception as e:
         print(e)

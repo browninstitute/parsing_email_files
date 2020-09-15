@@ -33,6 +33,7 @@ pip3 install nltk
 pip3 install rake-nltk
 pip3 install bs4
 pip3 install pdfkit
+python3 -m spacy download en_core_web_sm
 ```
 
 ## Running the scripts
@@ -45,10 +46,22 @@ Note that the input files must be unzipped.
 
 The scripts will produce an output `pdf` file with the same file name as the original email file. In addition, it will also output the attachments with the name of the original email file pre-appended to their name.
 
+The script will also produce a file called `summaryFile.csv` which contains the following fields:
+
+* `fileName`: the name of the original email file
+* `from`: the sender's email address
+* `to`: the receiver's email address
+* `cc`: any cc'd email address
+* `subject`: the email subject
+* `attachments`: the names of any attachment files in the email
+* `attachmentTypes`: the types of attachments in the email
+* `keywords_10`: the 10 most important keywords in the email, according to the [rake-nltk library](https://github.com/csurfer/rake-nltk)
+* `persons`: a list of persons (and the number of times) mentioned in the email, based on [SpaCy](https://spacy.io/) named entity recognition model
+* `orgs`: a list of organizations (and the number of times) mentioned in the email, based on [SpaCy](https://spacy.io/) named entity recognition model
+* `nat_rel_polt`: a list of nationalities, religious or political groups (and the number of times) mentioned in the email, based on [SpaCy](https://spacy.io/) named entity recognition model
+* `countries_cities_states`: a list of countries, cities or states (and the number of times) mentioned in the email, based on [SpaCy](https://spacy.io/) named entity recognition model
+* `laws`: a list of laws (and the number of times) mentioned in the email, based on [SpaCy](https://spacy.io/) named entity recognition model
+
 ## Parsing `.pst` files
 
 To parse `.pst` files, open Microsoft-Outlook and import them by selecting `File / Import / Outlook for Windows archive file (.pst)`. Once the messages are imported, select all the messages and drag them to a finder window on the folder where you wish to save the files. This should convert them to `.eml` files.
-
-## TODO:
-
-* [ ] Add entity extraction to the summary file (probably through SpaCy)
